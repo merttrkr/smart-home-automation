@@ -1,6 +1,6 @@
-package Actuators;
+package actuators;
 
-import States.State;
+import states.State;
 
 public interface IActuator {
 

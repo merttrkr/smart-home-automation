@@ -1,7 +1,7 @@
-package Actuators;
+package actuators;
 
-import States.State;
-import States.ThermostatState;
+import states.State;
+import states.ThermostatState;
 
 public  class Thermostat implements IActuator {
 	

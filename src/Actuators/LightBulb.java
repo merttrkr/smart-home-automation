@@ -1,7 +1,7 @@
-package Actuators;
-import States.LightBulbState;
-import States.LightOffState;
-import States.State;
+package actuators;
+import states.LightBulbState;
+import states.LightOffState;
+import states.State;
 
 public class LightBulb implements IActuator {
 	private LightBulbState state;

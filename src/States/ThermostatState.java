@@ -1,4 +1,4 @@
-package States;
+package states;
 
 public abstract class ThermostatState {
 	public abstract void increaseTemperature();

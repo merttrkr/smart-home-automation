@@ -1,6 +1,6 @@
-package States;
+package states;
 
-import Actuators.LightBulb;
+import actuators.LightBulb;
 
 public class LightOffState extends LightBulbState{
 

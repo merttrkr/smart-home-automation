@@ -1,12 +1,13 @@
-package States;
+package states;
 
-import Actuators.Door;
+import actuators.Door;
 
 public class UnlockedState extends DoorState{
 
 	@Override
-	public void handleLock(Door door) {
-		// TODO Auto-generated method stub
+	public void handleTurnKey(Door door) {
+		door.setState(new LockedState());
+		System.out.println("locked");
 		
 	}
 

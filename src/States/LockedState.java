@@ -1,13 +1,13 @@
-package States;
+package states;
 
-import Actuators.Door;
+import actuators.Door;
 
 public class LockedState extends DoorState {
 
 	@Override
-	public void handleLock(Door door) {
-		
-		
+	public void handleTurnKey(Door door) {
+		door.setState(new UnlockedState());
+		System.out.println("unlocked");
 	}
 
 }

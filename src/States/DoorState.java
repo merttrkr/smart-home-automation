@@ -1,8 +1,8 @@
-package States;
+package states;
 
-import Actuators.Door;
-import Actuators.LightBulb;
+import actuators.Door;
+import actuators.LightBulb;
 
-public abstract class DoorState {
-	public abstract void handleLock(Door door);
+public abstract class DoorState extends State {
+	public abstract void handleTurnKey(Door door);
 }

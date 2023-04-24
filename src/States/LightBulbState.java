@@ -1,6 +1,6 @@
-package States;
+package states;
 
-import Actuators.LightBulb;
+import actuators.LightBulb;
 
 public abstract class LightBulbState extends State{
 	public abstract void handleClickButton(LightBulb lightBulb);
