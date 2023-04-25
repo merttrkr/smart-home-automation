@@ -10,4 +10,10 @@ public class LightOffState extends LightBulbState{
 		System.out.println("lights on");
 	}
 
+	@Override
+	public String toString() {
+		return "Off";
+	}
+	
+	
 }

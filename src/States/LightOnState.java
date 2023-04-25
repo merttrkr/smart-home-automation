@@ -11,5 +11,9 @@ public class LightOnState extends LightBulbState{
 		lightBulb.setState(new LightOffState());
 		System.out.println("lights off");
 	}
-
+	
+	@Override
+	public String toString() {
+		return "On";
+	}
 }
