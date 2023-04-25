@@ -9,5 +9,9 @@ public class LockedState extends DoorState {
 		door.setState(new UnlockedState());
 		System.out.println("unlocked");
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Locked";
+	}
 }
