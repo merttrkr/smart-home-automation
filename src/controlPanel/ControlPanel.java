@@ -8,7 +8,7 @@ import states.HighTemperatureState;
 import states.LowTemperatureState;
 import states.State;
 
-public class ControlPanel {
+public class ControlPanel implements IControlPanel{
 	
 	public void turnOffLights(LightBulb lightBulb) {
 		if(lightBulb.getState().toString().equals("On")) {
@@ -46,7 +46,7 @@ public class ControlPanel {
 			thermostat.decreaseTemperature(currentTemperature - maximumDesiredTemperature);
 		}
 		else {
-			System.out.println("temperature is ideal");
+			System.out.println("Temperature is ideal.");
 		}
 			
 	}

@@ -1,11 +1,12 @@
-package main;
+package mediator;
 import java.util.Random;
 import actuators.*;
 import controlPanel.ControlPanel;
+import controlPanel.IControlPanel;
 import states.*;
 
 import sensors.*;
-public class SmartHome {
+public class SmartHome implements ISmartHome{
 
 	private LightBulb lightBulb ;
 	private Door door; 
@@ -13,7 +14,7 @@ public class SmartHome {
     private Light lightSensor;
     private Motion motionSensor;
     private Temperature temperatureSensor;
-	private ControlPanel controlPanel;
+	private IControlPanel controlPanel;
 
 	public SmartHome() {
 		lightBulb = new LightBulb();
@@ -33,16 +34,18 @@ public class SmartHome {
     	lightSensor.getStateAndSetValue(lightBulb.getState());//sensor reads current state from house
     	String currentLightState  = lightSensor.getValue();//sensor sends light value to mediator
     	
-    	System.out.println("before sensor readings: "+ currentLightState );
+    	System.out.println("Initial light sensor readings: "+ currentLightState +".");
     	
     	if(randomCommandBool > 0) { //random command
+    		System.out.println("Command : Turn on lights.");
     		controlPanel.turnOnLights(lightBulb);
     	}
     	else {
+    		System.out.println("Command : Turn off lights.");
     		controlPanel.turnOffLights(lightBulb);
     	}
     	
-    	System.out.println("after: "+ lightBulb.getState().toString());
+    	System.out.println("Final light state: "+ lightBulb.getState().toString()+".");
     			
     	lightBulb.setState((randomLightStateBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
     	
@@ -55,17 +58,19 @@ public class SmartHome {
 		
     	motionSensor.getStateAndSetValue(door.getState());//sensor reads current state from house
     	String currentMotionState  = motionSensor.getValue();//sensor sends motion value to mediator
-    	System.out.println("before sensor readings: "+ currentMotionState );
+    	System.out.println("Initial motion sensor readings: "+ currentMotionState + ".");
     	
     	//control panel inputs randomize this
     	if(randomCommandBool > 0) { 
+    		System.out.println("Command : Lock the doors.");
     		controlPanel.lockDoor(door);
     	}
     	else {
+    		System.out.println("Command : Unlock the doors.");
     		controlPanel.unlockDoor(door);
     	}
     	
-    	System.out.println("after: " + door.getState().toString());
+    	System.out.println("Final door state: " + door.getState().toString()+ ".");
     	door.setState((randomDoorStateBool > 0) ? new UnlockedState() : new LockedState());//set house's door state
     	   
 	}
@@ -78,21 +83,23 @@ public class SmartHome {
     	temperatureSensor.getStateAndSetValue(thermostat.getState());//sensor reads current state from house
     	String currentTemperatureState = temperatureSensor.getValue();//sensor sends motion value to mediator
     	
-    	System.out.println("before sensor readings: "
-    					+ currentTemperatureState + " " + thermostat.getCurrentTemperature() );
-    	
+    	System.out.println("Initial sensor readings: "+ currentTemperatureState +"." );
+    	System.out.println("Initial Temperature: "+ thermostat.getCurrentTemperature()+" degrees."); 
     	controlPanel.controlTemperature(thermostat);
     	
-    	System.out.println("after: "+ thermostat.getState().toString()); 
-    	
+    	System.out.println("Final Thermostat state: "+ thermostat.getState().toString() +"."); 
+    	System.out.println("Final Temperature: "+ thermostat.getCurrentTemperature()+" degrees."); 
     	thermostat.setCurrentTemperature(currentRandomDegree); // setting current temperature adjusts thermostat's state
     	
 	}
 	
 	public void simulate() {
 		simulateLight();
+		System.out.println();
 		simulateMotion();
+		System.out.println();
 		simulateTemperature();
+		
 	}
 
 }

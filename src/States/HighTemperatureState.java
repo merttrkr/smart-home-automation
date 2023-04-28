@@ -8,14 +8,12 @@ public class HighTemperatureState extends ThermostatState{
 	public void handleDecreaseTemperature(Thermostat thermostat, int degree) {
 		
 		thermostat.setCurrentTemperature(thermostat.getCurrentTemperature() - degree);
-		System.out.println("temperature decreased by: " + degree );
+		System.out.println("Temperature decreased by: " + degree +" degrees.");
 		thermostat.setState(new DesiredTemperatureState());
 	}
 
 	@Override
-	public void handleIncreaseTemperature(Thermostat thermostat, int degree) {
-		// TODO Auto-generated method stub
-		
+	public void handleIncreaseTemperature(Thermostat thermostat, int degree) {		
 	}
 
 	@Override
