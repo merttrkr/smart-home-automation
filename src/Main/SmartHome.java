@@ -1,6 +1,4 @@
 package main;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Random;
 import actuators.*;
 import controlPanel.ControlPanel;
@@ -9,79 +7,78 @@ import states.*;
 import sensors.*;
 public class SmartHome {
 
-	public static void main(String[] args) {
+	private LightBulb lightBulb ;
+	private Door door; 
+	private Thermostat thermostat ;
+    private Light lightSensor;
+    private Motion motionSensor;
+    private Temperature temperatureSensor;
+	private ControlPanel controlPanel;
+
+	public SmartHome() {
+		lightBulb = new LightBulb();
+		door = new Door();
+		thermostat = new Thermostat();
+		controlPanel = new ControlPanel();
+		lightSensor = new Light();
+		motionSensor = new Motion();
+		temperatureSensor = new Temperature();
+	}
+	
+	public void simulateLight() {
+		Random randomNumber = new Random();
+		int randomBool = randomNumber.nextInt(2);//random house light
 		
-		
-		/*Thermostat thermostat = new Thermostat(15);
-		System.out.println(thermostat.getState()+ " " + thermostat.getCurrentTemperature());*/
-		
-		
-		// Start simulation
-        int simulationDuration = 10; // seconds
-    	Random randomNumber = new Random(); 
-    	int currentRandomDegree = randomNumber.nextInt(10,31);//random room temperature
+    	lightSensor.getStateAndSetValue(lightBulb.getState());//sensor reads current state from house
+    	String currentLightState  = lightSensor.getValue();//sensor sends light value to mediator
     	
-    
+    	System.out.println("before sensor readings: "+ currentLightState );
     	
-		LightBulb lightBulb = new LightBulb();
-		Door door = new Door();
-		Thermostat thermostat = new Thermostat(currentRandomDegree);
-		
-        Timer timer = new Timer();
-        ControlPanel controlPanel = new ControlPanel();
-        
-        Light lightSensor = new Light();
-        Motion motionSensor = new Motion();
-        Temperature temperatureSensor = new Temperature();
-        
-    
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-            	lightSensor.getStateAndSetValue(lightBulb.getState());//sensor reads current state from house
-            	String currentLightState  = lightSensor.getValue();//sensor sends light value to mediator
-            	
-            	motionSensor.getStateAndSetValue(door.getState());//sensor reads current state from house
-            	String currentMotionState  = motionSensor.getValue();//sensor sends motion value to mediator
-            	
-            	temperatureSensor.getStateAndSetValue(thermostat.getState());//sensor reads current state from house
-            	String currentTemperatureState = temperatureSensor.getValue();//sensor sends motion value to mediator
-            	
-            	System.out.println("before sensor readings: "
-            						+ currentLightState  + " "+ currentMotionState  + " " 
-            							+ currentTemperatureState + " " + thermostat.getCurrentTemperature() );
-            	
-            	//control panel inputs randomize this
-            	controlPanel.turnOnLights(lightBulb);
-            	controlPanel.lockDoor(door);
-            	controlPanel.controlTemperature(thermostat);
-            	
-            	System.out.println("after: "+ lightBulb.getState().toString() + " " + door.getState().toString()+ " " + thermostat.getState().toString()); 
-            	
-            	//initialize states randomly 
-            	int currentRandomDegree = randomNumber.nextInt(10,31);//random house temperature
-            	int randomBool = randomNumber.nextInt(2);//random house light
-            	
-            	lightBulb.setState((randomBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
-            	door.setState((randomBool > 0) ? new UnlockedState() : new LockedState());//set house's door state
-            	thermostat.setCurrentTemperature(currentRandomDegree); // setting current temperature adjusts thermostat's state
-            	
-            	        	
-            	
-            }
-        }, 0, 1000); // 1 second interval
-        
-        // Wait for simulation to complete
-        try {
-            Thread.sleep(simulationDuration * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        // Cancel timer and end simulation
-        timer.cancel();
-        System.out.println("Simulation completed.");
-		
+    	controlPanel.turnOnLights(lightBulb);
+    	System.out.println("after: "+ lightBulb.getState().toString());
+    			
+    	lightBulb.setState((randomBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
+    	
+	}
+	
+	public void simulateMotion() {
+		Random randomNumber = new Random();
+		int randomBool = randomNumber.nextInt(2);//random house light
+	
+    	motionSensor.getStateAndSetValue(door.getState());//sensor reads current state from house
+    	String currentMotionState  = motionSensor.getValue();//sensor sends motion value to mediator
+    	System.out.println("before sensor readings: "+ currentMotionState );
+    	
+    	//control panel inputs randomize this
+    	controlPanel.lockDoor(door);
+    	System.out.println("after: " + door.getState().toString());
+    	door.setState((randomBool > 0) ? new UnlockedState() : new LockedState());//set house's door state
+    	   
+	}
+	
+	public void simulateTemperature() {
+		Random randomNumber = new Random();
+		int currentRandomDegree = randomNumber.nextInt(10,31);//random house temperature
+
+    	thermostat.setCurrentTemperature(currentRandomDegree);
+    	temperatureSensor.getStateAndSetValue(thermostat.getState());//sensor reads current state from house
+    	String currentTemperatureState = temperatureSensor.getValue();//sensor sends motion value to mediator
+    	
+    	System.out.println("before sensor readings: "
+    					+ currentTemperatureState + " " + thermostat.getCurrentTemperature() );
+    	
+    	controlPanel.controlTemperature(thermostat);
+    	
+    	System.out.println("after: "+ thermostat.getState().toString()); 
+    	
+    	thermostat.setCurrentTemperature(currentRandomDegree); // setting current temperature adjusts thermostat's state
+    	
+	}
+	
+	public void simulate() {
+		simulateLight();
+		simulateMotion();
+		simulateTemperature();
 	}
 
 }

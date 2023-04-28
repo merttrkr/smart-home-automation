@@ -13,9 +13,7 @@ public  class Thermostat implements IActuator {
 	private int maximumDesiredTemperature=25;
 	private int currentTemperature;
 	
-	public Thermostat(int currentTemperature) {
-		this.currentTemperature = currentTemperature;
-		state = findCurrentState();
+	public Thermostat() {
 	}
 	
 	public ThermostatState findCurrentState() {
