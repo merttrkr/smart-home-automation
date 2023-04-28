@@ -8,13 +8,13 @@ public class Motion extends Sensor{
 	public Motion() {
 		
 	}
-	
+	//return stored doors state
 	public String getValue() {
 		// TODO Auto-generated method stub
 		return this.value;
 	}
-	
-	public void getMotion(State doorState) {
+	//	gets current state of the door from house and stores it
+	public void getStateAndSetValue(State doorState) {
 		this.value = doorState.toString();
 	}
 }

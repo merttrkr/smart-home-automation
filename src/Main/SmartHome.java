@@ -19,48 +19,54 @@ public class SmartHome {
 		// Start simulation
         int simulationDuration = 10; // seconds
     	Random randomNumber = new Random(); 
-    	int currentDegree = randomNumber.nextInt(10,31);//random room temperature
+    	int currentRandomDegree = randomNumber.nextInt(10,31);//random room temperature
     	
     
-    	Thermostat thermostat = new Thermostat(currentDegree);
+    	
 		LightBulb lightBulb = new LightBulb();
 		Door door = new Door();
-		
-		
-    	
+		Thermostat thermostat = new Thermostat(currentRandomDegree);
 		
         Timer timer = new Timer();
         ControlPanel controlPanel = new ControlPanel();
+        
         Light lightSensor = new Light();
         Motion motionSensor = new Motion();
+        Temperature temperatureSensor = new Temperature();
+        
+    
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-            	lightSensor.getLight(lightBulb.getState());//sensor reads current state from house
-            	String currentLight = lightSensor.getValue();//sensor sends light value to mediator
+            	lightSensor.getStateAndSetValue(lightBulb.getState());//sensor reads current state from house
+            	String currentLightState  = lightSensor.getValue();//sensor sends light value to mediator
             	
-            	motionSensor.getMotion(door.getState());//sensor reads current state from house
-            	String currentMotion = motionSensor.getValue();//sensor sends motion value to mediator
+            	motionSensor.getStateAndSetValue(door.getState());//sensor reads current state from house
+            	String currentMotionState  = motionSensor.getValue();//sensor sends motion value to mediator
             	
-            	System.out.println("before sensor readings: "+ currentLight + " "+currentMotion);
+            	temperatureSensor.getStateAndSetValue(thermostat.getState());//sensor reads current state from house
+            	String currentTemperatureState = temperatureSensor.getValue();//sensor sends motion value to mediator
+            	
+            	System.out.println("before sensor readings: "
+            						+ currentLightState  + " "+ currentMotionState  + " " 
+            							+ currentTemperatureState + " " + thermostat.getCurrentTemperature() );
             	
             	//control panel inputs randomize this
             	controlPanel.turnOnLights(lightBulb);
             	controlPanel.lockDoor(door);
+            	controlPanel.controlTemperature(thermostat);
             	
-            	System.out.println("after: "+ lightBulb.getState().toString() + " " + door.getState().toString()); 
+            	System.out.println("after: "+ lightBulb.getState().toString() + " " + door.getState().toString()+ " " + thermostat.getState().toString()); 
             	
             	//initialize states randomly 
-            	int randomBool = randomNumber.nextInt(2);//random room light
-            	lightBulb.setState((randomBool > 0) ? new LightOnState() : new LightOffState());//set room light state
-            	door.setState((randomBool > 0) ? new UnlockedState() : new LockedState());//set door state
+            	int currentRandomDegree = randomNumber.nextInt(10,31);//random house temperature
+            	int randomBool = randomNumber.nextInt(2);//random house light
             	
+            	lightBulb.setState((randomBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
+            	door.setState((randomBool > 0) ? new UnlockedState() : new LockedState());//set house's door state
+            	thermostat.setCurrentTemperature(currentRandomDegree); // setting current temperature adjusts thermostat's state
             	
             	        	
-            	
-            	//thermostat.setCurrentTemperature(currentDegree);
-                // Periodically send readings from sensors
-            	/* Read temperature from sensor */
             	
             }
         }, 0, 1000); // 1 second interval

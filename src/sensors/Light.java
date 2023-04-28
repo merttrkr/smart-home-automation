@@ -14,7 +14,7 @@ public class Light extends Sensor{
 		// TODO Auto-generated method stub
 		return this.value;
 	}
-	public void getLight(State lightBulbState) {
+	public void getStateAndSetValue(State lightBulbState) {
 		this.value = lightBulbState.toString();
 	}
 

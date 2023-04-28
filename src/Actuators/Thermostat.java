@@ -9,32 +9,33 @@ import states.ThermostatState;
 public  class Thermostat implements IActuator {
 		
 	private ThermostatState state;
-	public int minimumDesiredTemperature=20;
-	public int maximumDesiredTemperature=25;
-	public int currentTemperature;
+	private int minimumDesiredTemperature=20;
+	private int maximumDesiredTemperature=25;
+	private int currentTemperature;
 	
 	public Thermostat(int currentTemperature) {
 		this.currentTemperature = currentTemperature;
-		controlTemperature();
+		state = findCurrentState();
+	}
+	
+	public ThermostatState findCurrentState() {
+		if(currentTemperature < minimumDesiredTemperature) {
+			state = new LowTemperatureState();
+		}
+		
+		else if(currentTemperature > maximumDesiredTemperature) {
+			state = new HighTemperatureState();
+		}
+		else {
+			state = new DesiredTemperatureState();
+		}
+		return state;
 	}
 	
 	public void setState(State state) {
 		this.state = (ThermostatState) state;
 	}
 	
-	public void controlTemperature() {
-		if(currentTemperature < minimumDesiredTemperature) {
-			state = new LowTemperatureState();
-			increaseTemperature(minimumDesiredTemperature - currentTemperature);
-		}
-		else if(currentTemperature > maximumDesiredTemperature) {
-			state = new HighTemperatureState();
-			decreaseTemperature(currentTemperature - maximumDesiredTemperature);
-		}
-		else {
-			state = new DesiredTemperatureState();
-		}
-	}
 	
 	public void increaseTemperature(int degree) {
 		state.handleIncreaseTemperature(this,degree);
@@ -48,14 +49,24 @@ public  class Thermostat implements IActuator {
 		
 		return state;
 	}
+	
 	public int getCurrentTemperature() {
 		
 		return this.currentTemperature;
 	}
+	
 	public void setCurrentTemperature(int temperature ) {
 		
 		this.currentTemperature= temperature;
+		state = findCurrentState();
 	}
 
+	public int getMinimumDesiredTemperature() {
+		return minimumDesiredTemperature;
+	}
+
+	public int getMaximumDesiredTemperature() {
+		return maximumDesiredTemperature;
+	}
 
 }

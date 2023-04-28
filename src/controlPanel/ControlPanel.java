@@ -2,6 +2,10 @@ package controlPanel;
 
 import actuators.Door;
 import actuators.LightBulb;
+import actuators.Thermostat;
+import states.DesiredTemperatureState;
+import states.HighTemperatureState;
+import states.LowTemperatureState;
 import states.State;
 
 public class ControlPanel {
@@ -28,6 +32,23 @@ public class ControlPanel {
 		if(door.getState().toString().equals("Locked")) {
 			door.turnKey();
 		}
+	}
+	public void controlTemperature(Thermostat thermostat) {
+		int currentTemperature = thermostat.getCurrentTemperature();
+		int minimumDesiredTemperature = thermostat.getMinimumDesiredTemperature();
+		int maximumDesiredTemperature = thermostat.getMaximumDesiredTemperature();
+		
+		if(currentTemperature < minimumDesiredTemperature) {
+			thermostat.increaseTemperature(minimumDesiredTemperature - currentTemperature);
+		}
+		
+		else if(currentTemperature > maximumDesiredTemperature) {
+			thermostat.decreaseTemperature(currentTemperature - maximumDesiredTemperature);
+		}
+		else {
+			System.out.println("temperature is ideal");
+		}
+			
 	}
 
 }
