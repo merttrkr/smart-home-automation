@@ -27,39 +27,53 @@ public class SmartHome {
 	
 	public void simulateLight() {
 		Random randomNumber = new Random();
-		int randomBool = randomNumber.nextInt(2);//random house light
+		int randomLightStateBool = randomNumber.nextInt(2);//random house light state
+		int randomCommandBool = randomNumber.nextInt(2);//random light command
 		
     	lightSensor.getStateAndSetValue(lightBulb.getState());//sensor reads current state from house
     	String currentLightState  = lightSensor.getValue();//sensor sends light value to mediator
     	
     	System.out.println("before sensor readings: "+ currentLightState );
     	
-    	controlPanel.turnOnLights(lightBulb);
+    	if(randomCommandBool > 0) { //random command
+    		controlPanel.turnOnLights(lightBulb);
+    	}
+    	else {
+    		controlPanel.turnOffLights(lightBulb);
+    	}
+    	
     	System.out.println("after: "+ lightBulb.getState().toString());
     			
-    	lightBulb.setState((randomBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
+    	lightBulb.setState((randomLightStateBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
     	
 	}
 	
 	public void simulateMotion() {
 		Random randomNumber = new Random();
-		int randomBool = randomNumber.nextInt(2);//random house light
-	
+		int randomDoorStateBool = randomNumber.nextInt(2);//random house light
+		int randomCommandBool = randomNumber.nextInt(2);//random light command
+		
     	motionSensor.getStateAndSetValue(door.getState());//sensor reads current state from house
     	String currentMotionState  = motionSensor.getValue();//sensor sends motion value to mediator
     	System.out.println("before sensor readings: "+ currentMotionState );
     	
     	//control panel inputs randomize this
-    	controlPanel.lockDoor(door);
+    	if(randomCommandBool > 0) { 
+    		controlPanel.lockDoor(door);
+    	}
+    	else {
+    		controlPanel.unlockDoor(door);
+    	}
+    	
     	System.out.println("after: " + door.getState().toString());
-    	door.setState((randomBool > 0) ? new UnlockedState() : new LockedState());//set house's door state
+    	door.setState((randomDoorStateBool > 0) ? new UnlockedState() : new LockedState());//set house's door state
     	   
 	}
 	
 	public void simulateTemperature() {
 		Random randomNumber = new Random();
 		int currentRandomDegree = randomNumber.nextInt(10,31);//random house temperature
-
+		
     	thermostat.setCurrentTemperature(currentRandomDegree);
     	temperatureSensor.getStateAndSetValue(thermostat.getState());//sensor reads current state from house
     	String currentTemperatureState = temperatureSensor.getValue();//sensor sends motion value to mediator
