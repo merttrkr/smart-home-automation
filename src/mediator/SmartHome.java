@@ -14,9 +14,9 @@ public class SmartHome implements ISmartHome{
     private Light lightSensor;
     private Motion motionSensor;
     private Temperature temperatureSensor;
-	private IControlPanel controlPanel;
+	private IControlPanel controlPanel;	//Created with interface
 
-	public SmartHome() {
+	public SmartHome() {	//mediator 
 		lightBulb = new LightBulb();
 		door = new Door();
 		thermostat = new Thermostat();
@@ -47,7 +47,7 @@ public class SmartHome implements ISmartHome{
     	
     	System.out.println("Final light state: "+ lightBulb.getState().toString()+".");
     			
-    	lightBulb.setState((randomLightStateBool > 0) ? new LightOnState() : new LightOffState());//set house's light state
+    	lightBulb.setState((randomLightStateBool > 0) ? new LightOnState() : new LightOffState());//set house's next random light state
     	
 	}
 	

@@ -8,7 +8,7 @@ import states.HighTemperatureState;
 import states.LowTemperatureState;
 import states.State;
 
-public class ControlPanel implements IControlPanel{
+public class ControlPanel implements IControlPanel{	//all commands that control panel can give defined here
 	
 	public void turnOffLights(LightBulb lightBulb) {
 		if(lightBulb.getState().toString().equals("On")) {
@@ -33,6 +33,7 @@ public class ControlPanel implements IControlPanel{
 			door.turnKey();
 		}
 	}
+	//automatically handles temperature according the initial state of the home temperature
 	public void controlTemperature(Thermostat thermostat) {
 		int currentTemperature = thermostat.getCurrentTemperature();
 		int minimumDesiredTemperature = thermostat.getMinimumDesiredTemperature();

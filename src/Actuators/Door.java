@@ -4,7 +4,7 @@ import states.DoorState;
 import states.State;
 import states.UnlockedState;
 
-public class Door implements IActuator {
+public class Door extends Actuator {
 	private DoorState state;
 	
 	public Door() {

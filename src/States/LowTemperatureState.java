@@ -6,6 +6,7 @@ public class LowTemperatureState extends ThermostatState{
 
 	@Override
 	public void handleDecreaseTemperature(Thermostat thermostat, int degree) {
+		//will not be used in the scope of homework
 	}
 
 	@Override

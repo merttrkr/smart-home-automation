@@ -3,7 +3,7 @@ import states.LightBulbState;
 import states.LightOffState;
 import states.State;
 
-public class LightBulb implements IActuator {
+public class LightBulb extends Actuator {
 	private LightBulbState state;
 	
 	public LightBulb() {

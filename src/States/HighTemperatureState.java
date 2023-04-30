@@ -11,9 +11,10 @@ public class HighTemperatureState extends ThermostatState{
 		System.out.println("Temperature decreased by: " + degree +" degrees.");
 		thermostat.setState(new DesiredTemperatureState());
 	}
-
+	
 	@Override
-	public void handleIncreaseTemperature(Thermostat thermostat, int degree) {		
+	public void handleIncreaseTemperature(Thermostat thermostat,int degree) {
+		//will not be used in the scope of homework
 	}
 
 	@Override

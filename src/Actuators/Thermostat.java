@@ -6,7 +6,7 @@ import states.LowTemperatureState;
 import states.State;
 import states.ThermostatState;
 
-public  class Thermostat implements IActuator {
+public  class Thermostat extends Actuator {
 		
 	private ThermostatState state;
 	private int minimumDesiredTemperature=20;
